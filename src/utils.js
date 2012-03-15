@@ -37,10 +37,20 @@ ko.utils = (function () {
 
     var utils = {
         fieldsIncludedWithJsonPost: ['authenticity_token', /^__RequestVerificationToken(_.*)?$/],
-        
-        arrayForEach: function (array, action) {
-            for (var i = 0, j = array.length; i < j; i++)
-                action(array[i]);
+
+        arrayForEach: function (array, action, backwards) {
+            // there must be a better test for array like?
+            if (typeof array.length == "number")
+                if (backwards)
+                    for (var i = array.length - 1; i >= 0; i--)
+                        action(array[i]);
+                else
+                    for (var i = 0, j = array.length; i < j; i++)
+                        action(array[i]);
+            else {
+                //not an array!
+                action(array);
+            }
         },
 
         arrayIndexOf: function (array, item) {
